@@ -14,13 +14,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "user_sequence")
     @SequenceGenerator(name = "user_sequence",allocationSize = 1,initialValue = 1)
     private long id;
-    @Column(unique = true)
+    @Column(unique = true,nullable = false)
     private String username;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private String surname;
-    private String password;
     private String info;
     private String linkPhoto;
+    @JsonIgnore
+    @Column(nullable = false)
+    private String password;
+
     @JsonIgnore
     @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE)
     private List<Character> characterList;
