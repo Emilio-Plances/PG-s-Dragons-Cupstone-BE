@@ -13,4 +13,14 @@ public class ErrorHandler {
     public ErrorResponse notFoundException(NotFoundException e){
         return new ErrorResponse(e.getMessage());
     }
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResponse unauthorizedException(UnauthorizedException e){
+        return new ErrorResponse(e.getMessage());
+    }
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse badRequestException(BadRequestException e){
+        return new ErrorResponse(e.getMessage());
+    }
 }
