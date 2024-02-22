@@ -3,7 +3,7 @@ package com.example.PG.s.Dragons.services;
 import com.example.PG.s.Dragons.entities.User;
 import com.example.PG.s.Dragons.exceptions.NotFoundException;
 import com.example.PG.s.Dragons.repositories.UserRepository;
-import com.example.PG.s.Dragons.requests.userRequests.PatchRequest;
+import com.example.PG.s.Dragons.requests.userRequests.UserPatchRequest;
 import com.example.PG.s.Dragons.requests.userRequests.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -41,7 +40,7 @@ public class UserService {
         user.setPassword(encoder.encode(registerRequest.getPassword()));
         return userRepository.save(user);
     }
-    public User update(long id, PatchRequest patchRequest) throws NotFoundException {
+    public User update(long id, UserPatchRequest patchRequest) throws NotFoundException {
         User user=findById(id);
         if(patchRequest.getName()!=null) user.setName(patchRequest.getName());
         if(patchRequest.getSurname()!=null) user.setSurname(patchRequest.getSurname());

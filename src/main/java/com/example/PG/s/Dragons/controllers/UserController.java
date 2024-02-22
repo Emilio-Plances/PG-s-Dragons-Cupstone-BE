@@ -6,6 +6,7 @@ import com.example.PG.s.Dragons.exceptions.NotFoundException;
 import com.example.PG.s.Dragons.exceptions.UnauthorizedException;
 import com.example.PG.s.Dragons.requests.userRequests.ChangePassRequest;
 import com.example.PG.s.Dragons.requests.userRequests.LoginRequest;
+import com.example.PG.s.Dragons.requests.userRequests.UserPatchRequest;
 import com.example.PG.s.Dragons.requests.userRequests.RegisterRequest;
 import com.example.PG.s.Dragons.responses.DefaultResponse;
 import com.example.PG.s.Dragons.responses.LoginResponse;
@@ -13,7 +14,6 @@ import com.example.PG.s.Dragons.security.JwtTools;
 import com.example.PG.s.Dragons.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,6 +54,12 @@ public class UserController{
         if(!encoder.matches(passRequest.getOldPassword(),user.getPassword())) throw new UnauthorizedException("Passwords must match");
         userService.setNewPassword(id, passRequest.getNewPassword());
         return DefaultResponse.noObject("Password changed",HttpStatus.OK);
+    }
+    @PatchMapping("/users/{id}")
+    public ResponseEntity<DefaultResponse> changeInfo(@PathVariable long id, @RequestBody @Validated UserPatchRequest patchRequest,BindingResult bindingResult) throws BadRequestException, NotFoundException {
+        if(bindingResult.hasErrors())
+            throw new BadRequestException(bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList().toString());
+        return DefaultResponse.full("Success!",userService.update(id,patchRequest),HttpStatus.OK);
     }
     @GetMapping("/users")
     @PreAuthorize("hasAuthority('ADMIN')")
