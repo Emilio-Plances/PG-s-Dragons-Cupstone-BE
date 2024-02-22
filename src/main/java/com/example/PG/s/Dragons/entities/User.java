@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
-
 @Data
 @Entity
 @Table(name="users")
@@ -25,11 +24,9 @@ public class User {
     @JsonIgnore
     @Column(nullable = false)
     private String password;
-
     @JsonIgnore
     @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE)
     private List<Character> characterList;
-
     @Override
     public String toString() {
         return  "id=" + id +
