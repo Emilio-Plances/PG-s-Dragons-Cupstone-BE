@@ -12,7 +12,6 @@ public class LoginResponse {
     private LocalDate loginDate;
     private String token;
     private User user;
-
     public LoginResponse(String token,User user) {
         this.token = token;
         this.user=user;
