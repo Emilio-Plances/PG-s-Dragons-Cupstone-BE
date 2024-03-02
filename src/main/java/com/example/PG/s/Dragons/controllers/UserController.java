@@ -62,12 +62,10 @@ public class UserController{
         return DefaultResponse.full("Success!",userService.update(id,patchRequest),HttpStatus.OK);
     }
     @GetMapping("/users")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<DefaultResponse> getAll(Pageable pageable){
         return DefaultResponse.noMessage(userService.findAll(pageable),HttpStatus.OK);
     }
     @GetMapping("/users/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<DefaultResponse> getUserById(@PathVariable long id) throws NotFoundException {
         return DefaultResponse.noMessage(userService.findById(id),HttpStatus.OK);
     }

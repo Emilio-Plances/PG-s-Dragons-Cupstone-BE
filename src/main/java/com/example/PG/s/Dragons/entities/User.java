@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 @Data
@@ -24,43 +25,39 @@ public class User implements UserDetails {
     private String name;
     @Column(nullable = false)
     private String surname;
+    private LocalDate birthday;
     private String info;
+    @Column(name = "link_photo")
     private String linkPhoto;
+    @Enumerated(EnumType.STRING)
+    private Role role;
     @JsonIgnore
     @Column(nullable = false)
     private String password;
     @JsonIgnore
     @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE)
     private List<Character> characterList;
-    @Enumerated(EnumType.STRING)
-    private Role role;
-    @Override
-    public String toString() {
-        return  "id=" + id +
-                ", username='" + username + '\'' +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", password='" + password + '\'' +
-                ", info='" + info + '\'' +
-                ", linkPhoto='" + linkPhoto + '\'';
-    }
-
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;

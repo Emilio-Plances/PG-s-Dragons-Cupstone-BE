@@ -37,6 +37,7 @@ public class UserService {
         user.setName(registerRequest.getName());
         user.setSurname(registerRequest.getSurname());
         user.setUsername(registerRequest.getUsername());
+        user.setBirthday(registerRequest.getBirthday());
         user.setPassword(encoder.encode(registerRequest.getPassword()));
         return userRepository.save(user);
     }
@@ -46,6 +47,7 @@ public class UserService {
         if(patchRequest.getSurname()!=null) user.setSurname(patchRequest.getSurname());
         if(patchRequest.getInfo()!=null) user.setInfo(patchRequest.getInfo());
         if(patchRequest.getUsername()!=null) user.setUsername(patchRequest.getUsername());
+        if(patchRequest.getBirthday()!=null) user.setBirthday(patchRequest.getBirthday());
         return userRepository.save(user);
     }
     public void setNewPassword(long id,String newPassword) throws NotFoundException {
