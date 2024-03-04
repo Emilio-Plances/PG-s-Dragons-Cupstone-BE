@@ -22,7 +22,6 @@ public class CharacterService {
     private UserService userService;
     @Autowired
     private SpellService spellService;
-
     public Page<Character> findAll(Pageable pageable){
         return characterRepository.findAll(pageable);
     }
@@ -60,6 +59,7 @@ public class CharacterService {
         character.setCharisma(characterRequest.getCharisma());
         character.setSpells(setSpells(characterRequest.getSpellsId()));
         character.setSkills(characterRequest.getSkills());
+        character.setImage(characterRequest.getImage());
         return character;
     }
     private Set<Spell> setSpells(Set<Long> spellsIds){
@@ -69,6 +69,11 @@ public class CharacterService {
             catch (NotFoundException e) {throw new RuntimeException(e);}
         });
         return spells;
+    }
+    public Character upload(long id, String link) throws NotFoundException {
+        Character character=findById(id);
+        character.setImage(link);
+        return characterRepository.save(character);
     }
     public void delete(long id) throws NotFoundException {
         Character character=findById(id);

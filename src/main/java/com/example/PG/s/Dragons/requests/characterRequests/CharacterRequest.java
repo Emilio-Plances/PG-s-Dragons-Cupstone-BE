@@ -31,4 +31,5 @@ public class CharacterRequest {
     private Integer charisma;
     private Set<Long> spellsId;
     private Set<Skill> skills;
+    private String image;
 }

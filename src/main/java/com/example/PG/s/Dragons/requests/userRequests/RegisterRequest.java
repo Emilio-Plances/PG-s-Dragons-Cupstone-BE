@@ -20,7 +20,6 @@ public class RegisterRequest {
     @NotBlank(message = "The email cannot be empty")
     @Email(message = "Enter a valid email")
     private String email;
-    @NotBlank(message = "The password cannot be empty")
     @Pattern(regexp ="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>.]).{8,}$",
             message = "Password must contain: -1 letter uppercase -1 letter lowercase -1 number 1 special character -Min 8 char")
     private String password;

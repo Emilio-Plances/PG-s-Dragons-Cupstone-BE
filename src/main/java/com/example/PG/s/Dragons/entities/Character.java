@@ -28,6 +28,7 @@ public class Character {
     private Dice dice;
     private int proficiency;
     private int initiative;
+    private String image;
     @Enumerated(EnumType.STRING)
     private Race race;
     private Integer hp;
