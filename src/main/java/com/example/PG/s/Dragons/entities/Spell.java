@@ -1,6 +1,6 @@
 package com.example.PG.s.Dragons.entities;
 
-import com.example.PG.s.Dragons.enums.Class;
+import com.example.PG.s.Dragons.enums.PgClass;
 import com.example.PG.s.Dragons.enums.School;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -18,7 +18,7 @@ public class Spell {
     private String name;
     @Enumerated(EnumType.STRING)
     @Column(name = "classes")
-    private Set<Class> classList;
+    private Set<PgClass> pgClassList;
     private int level;
     @Enumerated(EnumType.STRING)
     private School school;

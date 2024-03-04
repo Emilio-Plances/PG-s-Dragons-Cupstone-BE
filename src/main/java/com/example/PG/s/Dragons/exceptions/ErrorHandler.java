@@ -18,9 +18,9 @@ public class ErrorHandler {
     public ErrorResponse unauthorizedException(UnauthorizedException e){
         return new ErrorResponse(e.getMessage());
     }
-    @ExceptionHandler(BadRequestException.class)
+    @ExceptionHandler(BadRequestExceptionHandler.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse badRequestException(BadRequestException e){
+    public ErrorResponse badRequestException(BadRequestExceptionHandler e){
         return new ErrorResponse(e.getMessage());
     }
 }

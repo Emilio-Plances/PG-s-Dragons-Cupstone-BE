@@ -1,7 +1,7 @@
 package com.example.PG.s.Dragons;
 
 import com.example.PG.s.Dragons.entities.Spell;
-import com.example.PG.s.Dragons.enums.Class;
+import com.example.PG.s.Dragons.enums.PgClass;
 import com.example.PG.s.Dragons.enums.School;
 import com.example.PG.s.Dragons.services.SpellService;
 import com.opencsv.CSVReader;
@@ -37,7 +37,7 @@ public class Runner implements CommandLineRunner {
             while((line=spellsReader.readNext())!=null){
                 Spell spell=new Spell();
                 spell.setName(line[0]);
-                spell.setClassList(new HashSet<>(toClassSet(line[1])));
+                spell.setPgClassList(new HashSet<>(toClassSet(line[1])));
                 spell.setLevel(Integer.parseInt(line[2]));
                 spell.setSchool(toSchoolSet(line[3]));
                 spell.setCastTime(line[4]);
@@ -56,41 +56,41 @@ public class Runner implements CommandLineRunner {
             logger.error(e.getMessage());
         }
     }
-    private Set<Class> toClassSet(String string){
+    private Set<PgClass> toClassSet(String string){
         String[] classSplit=string.split(", ");
-        Set<Class> classSet=new HashSet<>();
+        Set<PgClass> pgClassSet =new HashSet<>();
         Arrays.stream(classSplit).toList().forEach(el->{
             switch(el){
                 case "Artificer":
-                    classSet.add(Class.Artificer);
+                    pgClassSet.add(PgClass.Artificer);
                     break;
                 case "Bard":
-                    classSet.add(Class.Bard);
+                    pgClassSet.add(PgClass.Bard);
                     break;
                 case "Cleric":
-                    classSet.add(Class.Cleric);
+                    pgClassSet.add(PgClass.Cleric);
                     break;
                 case "Druid":
-                    classSet.add(Class.Druid);
+                    pgClassSet.add(PgClass.Druid);
                     break;
                 case "Paladin":
-                    classSet.add(Class.Paladin);
+                    pgClassSet.add(PgClass.Paladin);
                     break;
                 case "Ranger":
-                    classSet.add(Class.Ranger);
+                    pgClassSet.add(PgClass.Ranger);
                     break;
                 case "Sorcerer":
-                    classSet.add(Class.Sorcerer);
+                    pgClassSet.add(PgClass.Sorcerer);
                     break;
                 case "Warlock":
-                    classSet.add(Class.Warlock);
+                    pgClassSet.add(PgClass.Warlock);
                     break;
                 case "Wizard":
-                    classSet.add(Class.Wizard);
+                    pgClassSet.add(PgClass.Wizard);
                     break;
             }
         });
-        return classSet;
+        return pgClassSet;
     }
     private School toSchoolSet(String string){
         return switch (string) {
