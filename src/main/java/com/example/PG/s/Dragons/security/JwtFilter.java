@@ -11,11 +11,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-
+@Component
 public class JwtFilter extends OncePerRequestFilter {
     @Autowired
     private JwtTools jwtTools;
@@ -46,6 +47,10 @@ public class JwtFilter extends OncePerRequestFilter {
     }
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return new AntPathMatcher().match("/api/auth/**", request.getServletPath());
+        String[] pathsToMatch = {"/api/auth/**", "/api/spells/**"};
+        for(String path:pathsToMatch){
+            if(new AntPathMatcher().match(path, request.getServletPath())) return true;
+        }
+        return false;
     }
 }
