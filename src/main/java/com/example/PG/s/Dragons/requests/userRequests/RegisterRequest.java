@@ -1,16 +1,12 @@
 package com.example.PG.s.Dragons.requests.userRequests;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Data
 public class RegisterRequest {
-
     @NotBlank(message = "The username cannot be empty")
     @Size(min=3,max=15,message="The username must contain 3 to 15 characters.")
     private String username;
@@ -20,9 +16,12 @@ public class RegisterRequest {
     @NotBlank
     @Size(min=3,max=15,message="The surname must contain 3 to 15 characters.")
     private String surname;
-    @NotNull
     private LocalDate birthday;
+    @NotBlank(message = "The email cannot be empty")
+    @Email(message = "Enter a valid email")
+    private String email;
     @NotBlank(message = "The password cannot be empty")
-    @Pattern(regexp ="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,}$")
+    @Pattern(regexp ="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>.]).{8,}$",
+            message = "Password must contain: -1 letter uppercase -1 letter lowercase -1 number 1 special character -Min 8 char")
     private String password;
 }

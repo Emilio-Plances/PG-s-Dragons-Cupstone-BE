@@ -14,4 +14,5 @@ public class Character {
     @ManyToOne
     @JoinColumn(name = "user_fk")
     private User user;
+    private String name;
 }

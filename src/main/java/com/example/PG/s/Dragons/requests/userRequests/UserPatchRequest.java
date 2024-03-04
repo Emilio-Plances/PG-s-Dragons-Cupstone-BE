@@ -1,5 +1,6 @@
 package com.example.PG.s.Dragons.requests.userRequests;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -22,4 +23,6 @@ public class UserPatchRequest {
     @Pattern(regexp = ".*[^ ].*",message = "Enter a valid info")
     @Max(255)
     private String info;
+    @Email
+    private String email;
 }
