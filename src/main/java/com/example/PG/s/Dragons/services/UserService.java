@@ -28,9 +28,10 @@ public class UserService {
         return optionalUser.get();
     }
     public User findByUsername(String username) throws NotFoundException {
-        Optional<User> optionalUser=userRepository.findByUsername(username);
-        if (optionalUser.isEmpty()) throw new NotFoundException("User not found");
-        return optionalUser.get();
+        return userRepository.findByUsername(username).orElseThrow(()->new NotFoundException("User not found"));
+    }
+    public User findByEmail(String email) throws NotFoundException {
+        return userRepository.findByEmail(email).orElseThrow(()->new NotFoundException("User not found"));
     }
     public User register(RegisterRequest registerRequest){
         User user=new User();

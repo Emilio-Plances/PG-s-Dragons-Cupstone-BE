@@ -8,8 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-
-
 public interface CharacterRepository extends JpaRepository<Character,Long>, PagingAndSortingRepository<Character,Long> {
     Page<Character> findByPgClassOrderByNameAsc (Pageable pageable,PgClass pgClass);
     Page<Character> findByRaceOrderByNameAsc (Pageable pageable, Race race);

@@ -53,7 +53,11 @@ public class UserController{
     public ResponseEntity<LoginResponse> login(@RequestBody @Validated LoginRequest loginRequest, BindingResult bindingResult) throws BadRequestExceptionHandler, NotFoundException, UnauthorizedException {
         if(bindingResult.hasErrors())
             throw new BadRequestExceptionHandler(bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList().toString());
-        User user=userService.findByUsername(loginRequest.getUsername());
+        User user=null;
+        if(loginRequest.getUsername()==null&&loginRequest.getEmail()==null) throw new BadRequestExceptionHandler("Missing username/Password");
+        if(loginRequest.getUsername()!=null) user=userService.findByUsername(loginRequest.getUsername());
+        if(loginRequest.getEmail()!=null && user==null) user=userService.findByEmail(loginRequest.getEmail());
+
         if (!encoder.matches(loginRequest.getPassword(),user.getPassword())) throw new UnauthorizedException("Wrong username/password");
         return LoginResponse.full(jwtTools.createToken(user),user,HttpStatus.OK);
     }
