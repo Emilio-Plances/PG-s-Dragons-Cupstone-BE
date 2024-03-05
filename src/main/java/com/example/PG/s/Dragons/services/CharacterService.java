@@ -3,6 +3,8 @@ package com.example.PG.s.Dragons.services;
 import com.example.PG.s.Dragons.entities.Character;
 import com.example.PG.s.Dragons.entities.Spell;
 import com.example.PG.s.Dragons.entities.User;
+import com.example.PG.s.Dragons.enums.PgClass;
+import com.example.PG.s.Dragons.enums.Race;
 import com.example.PG.s.Dragons.exceptions.NotFoundException;
 import com.example.PG.s.Dragons.repositories.CharacterRepository;
 import com.example.PG.s.Dragons.requests.characterRequests.CharacterRequest;
@@ -25,6 +27,15 @@ public class CharacterService {
     public Page<Character> findAll(Pageable pageable){
         return characterRepository.findAll(pageable);
     }
+    public Page<Character> filterByClass(Pageable pageable, PgClass pgClass){
+        return characterRepository.findByPgClassOrderByNameAsc(pageable,pgClass);
+    }
+    public Page<Character> filterByRace(Pageable pageable, Race race){
+        return characterRepository.findByRaceOrderByNameAsc(pageable,race);
+    }
+    public Page<Character> filterByRaceAndClass(Pageable pageable, Race race,PgClass pgClass){
+        return characterRepository.findByRaceAndPgClassOrderByNameAsc(pageable,race,pgClass);
+    }
     public Character findById(long id) throws NotFoundException {
         return characterRepository.findById(id).orElseThrow(()->new NotFoundException("Character not found"));
     }
@@ -37,6 +48,23 @@ public class CharacterService {
     public Character update(long id, CharacterRequest characterRequest) throws NotFoundException {
         Character character=findById(id);
         return characterRepository.save(copy(characterRequest,character));
+    }
+    public Character upload(long id, String link) throws NotFoundException {
+        Character character=findById(id);
+        character.setImage(link);
+        return characterRepository.save(character);
+    }
+    public void delete(long id) throws NotFoundException {
+        Character character=findById(id);
+        characterRepository.delete(character);
+    }
+    private Set<Spell> setSpells(Set<Long> spellsIds){
+        Set<Spell> spells=new HashSet<>();
+        spellsIds.forEach(el-> {
+            try {spells.add(spellService.findById(el));}
+            catch (NotFoundException e) {throw new RuntimeException(e);}
+        });
+        return spells;
     }
     private Character copy(CharacterRequest characterRequest,Character character){
         character.setStatus(characterRequest.getStatus());
@@ -61,22 +89,5 @@ public class CharacterService {
         character.setSkills(characterRequest.getSkills());
         character.setImage(characterRequest.getImage());
         return character;
-    }
-    private Set<Spell> setSpells(Set<Long> spellsIds){
-        Set<Spell> spells=new HashSet<>();
-        spellsIds.forEach(el-> {
-            try {spells.add(spellService.findById(el));}
-            catch (NotFoundException e) {throw new RuntimeException(e);}
-        });
-        return spells;
-    }
-    public Character upload(long id, String link) throws NotFoundException {
-        Character character=findById(id);
-        character.setImage(link);
-        return characterRepository.save(character);
-    }
-    public void delete(long id) throws NotFoundException {
-        Character character=findById(id);
-        characterRepository.delete(character);
     }
 }

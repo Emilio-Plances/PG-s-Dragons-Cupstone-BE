@@ -2,6 +2,8 @@ package com.example.PG.s.Dragons.controllers;
 
 import com.cloudinary.Cloudinary;
 import com.example.PG.s.Dragons.entities.Character;
+import com.example.PG.s.Dragons.enums.PgClass;
+import com.example.PG.s.Dragons.enums.Race;
 import com.example.PG.s.Dragons.exceptions.BadRequestExceptionHandler;
 import com.example.PG.s.Dragons.exceptions.NotFoundException;
 import com.example.PG.s.Dragons.requests.characterRequests.CharacterRequest;
@@ -20,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/characters")
@@ -35,6 +38,13 @@ public class CharacterController {
     @GetMapping("/{id}")
     public ResponseEntity<DefaultResponse> getById(@PathVariable long id) throws NotFoundException {
         return DefaultResponse.noMessage(characterService.findById(id),HttpStatus.OK);
+    }
+    @GetMapping("/query")
+    public ResponseEntity<DefaultResponse> filter(@RequestParam Optional<PgClass> optionalPgClass, @RequestParam Optional<Race> optionalRace,Pageable pageable){
+        if(optionalPgClass.isPresent()&&optionalRace.isPresent()) return DefaultResponse.noMessage(characterService.filterByRaceAndClass(pageable,optionalRace.get(),optionalPgClass.get()),HttpStatus.OK);
+        if(optionalPgClass.isPresent()) return DefaultResponse.noMessage(characterService.filterByClass(pageable,optionalPgClass.get()),HttpStatus.OK);
+        if(optionalRace.isPresent()) return DefaultResponse.noMessage(characterService.filterByRace(pageable,optionalRace.get()),HttpStatus.OK);
+        return DefaultResponse.noMessage(characterService.findAll(pageable),HttpStatus.OK);
     }
     @PostMapping
     public ResponseEntity<DefaultResponse> save(@RequestBody @Validated CharacterRequest characterRequest, BindingResult bindingResult) throws BadRequestExceptionHandler, NotFoundException {
