@@ -17,15 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class SpellController {
     @Autowired
     private SpellService spellService;
-    @GetMapping
+    @GetMapping("noAuth")
     public ResponseEntity<DefaultResponse> getAll(){
         return DefaultResponse.noMessage(spellService.findAll(), HttpStatus.OK);
     }
-    @GetMapping("/page")
+    @GetMapping("noAuth/page")
     public ResponseEntity<DefaultResponse> getPage(Pageable pageable){
         return DefaultResponse.noMessage(spellService.findPage(pageable),HttpStatus.OK);
     }
-    @GetMapping("/{id}")
+    @GetMapping("noAuth/{id}")
     public ResponseEntity<DefaultResponse> getById(@PathVariable long id) throws NotFoundException {
         return DefaultResponse.noMessage(spellService.findById(id),HttpStatus.OK);
     }

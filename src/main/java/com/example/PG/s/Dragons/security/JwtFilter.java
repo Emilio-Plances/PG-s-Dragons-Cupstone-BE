@@ -27,7 +27,7 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String auth= request.getHeader("Authorization");
         if(auth==null || !auth.startsWith("Bearer ")) try {
-            throw new UnauthorizedException("Token mancante!");
+            throw new UnauthorizedException("Token not found!");
         }
         catch (UnauthorizedException e) {throw new RuntimeException(e.getMessage());}
 
@@ -47,7 +47,7 @@ public class JwtFilter extends OncePerRequestFilter {
     }
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        String[] pathsToMatch = {"/api/auth/**", "/api/spells/**"};
+        String[] pathsToMatch = {"/api/auth/**","/api/noAuth/**"};
         for(String path:pathsToMatch){
             if(new AntPathMatcher().match(path, request.getServletPath())) return true;
         }

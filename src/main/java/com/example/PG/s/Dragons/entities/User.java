@@ -40,6 +40,12 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE)
     private List<Character> characterList;
     @JsonIgnore
+    @ManyToMany
+    @JoinTable(name = "preferred",
+    joinColumns = @JoinColumn(name = "user_preferred"),
+    inverseJoinColumns = @JoinColumn(name = "preferred"))
+    private List<Character> preferred;
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

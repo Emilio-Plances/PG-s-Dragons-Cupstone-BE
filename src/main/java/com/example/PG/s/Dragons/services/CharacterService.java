@@ -39,6 +39,9 @@ public class CharacterService {
     public Character findById(long id) throws NotFoundException {
         return characterRepository.findById(id).orElseThrow(()->new NotFoundException("Character not found"));
     }
+    public Page<Character> findCharByUserId(long id, Pageable pageable) throws NotFoundException {
+        return characterRepository.findByUserId(pageable,id);
+    }
     public Character save(CharacterRequest characterRequest) throws NotFoundException {
         User user= userService.findById(characterRequest.getUserId());
         Character character=new Character();
@@ -60,6 +63,7 @@ public class CharacterService {
     }
     private Set<Spell> setSpells(Set<Long> spellsIds){
         Set<Spell> spells=new HashSet<>();
+        if(spellsIds==null) return null;
         spellsIds.forEach(el-> {
             try {spells.add(spellService.findById(el));}
             catch (NotFoundException e) {throw new RuntimeException(e);}

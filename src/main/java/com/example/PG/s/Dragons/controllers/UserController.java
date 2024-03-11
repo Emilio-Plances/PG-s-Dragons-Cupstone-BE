@@ -61,6 +61,24 @@ public class UserController{
         if (!encoder.matches(loginRequest.getPassword(),user.getPassword())) throw new UnauthorizedException("Wrong username/password");
         return LoginResponse.full(jwtTools.createToken(user),user,HttpStatus.OK);
     }
+    @GetMapping("/auth/checkUsername")
+    public ResponseEntity<DefaultResponse> checkUsername(@RequestParam String username){
+        try{
+            userService.findByUsername(username);
+            return DefaultResponse.noObject("Exist",HttpStatus.OK);
+        } catch (NotFoundException e) {
+            return DefaultResponse.noObject("Avaiable",HttpStatus.OK);
+        }
+    }
+    @GetMapping("/auth/checkEmail")
+    public ResponseEntity<DefaultResponse> checkEmail(@RequestParam String email){
+        try{
+            userService.findByEmail(email);
+            return DefaultResponse.noObject("Exist",HttpStatus.OK);
+        } catch (NotFoundException e) {
+            return DefaultResponse.noObject("Avaiable",HttpStatus.OK);
+        }
+    }
     @PatchMapping("/users/{id}")
     public ResponseEntity<DefaultResponse> changeInfo(@PathVariable long id, @RequestBody @Validated UserPatchRequest patchRequest,BindingResult bindingResult) throws BadRequestExceptionHandler, NotFoundException {
         if(bindingResult.hasErrors())
@@ -76,21 +94,21 @@ public class UserController{
         userService.setNewPassword(id, passRequest.getNewPassword());
         return DefaultResponse.noObject("Password changed",HttpStatus.OK);
     }
-    @PatchMapping("users/{id}/upload")
+    @PatchMapping("/users/{id}/upload")
     public ResponseEntity<DefaultResponse> uploadImage(@PathVariable long id, @RequestParam("upload") MultipartFile file) throws IOException, NotFoundException {
         User user = userService.upload(id, (String)cloudinary.uploader().upload(file.getBytes(), new HashMap()).get("url"));
         return DefaultResponse.full("Image uploaded", user , HttpStatus.OK);
     }
-    @GetMapping("/users")
+    @GetMapping("/noAuth/users")
     public ResponseEntity<DefaultResponse> getAll(Pageable pageable){
         return DefaultResponse.noMessage(userService.findAll(pageable),HttpStatus.OK);
     }
-    @GetMapping("/users/{id}")
+    @GetMapping("/noAuth/users/{id}")
     public ResponseEntity<DefaultResponse> getUserById(@PathVariable long id) throws NotFoundException {
         return DefaultResponse.noMessage(userService.findById(id),HttpStatus.OK);
     }
-    @GetMapping("/users/{username}")
-    public ResponseEntity<DefaultResponse> getUserByUsername(@PathVariable String username) throws NotFoundException {
+    @GetMapping("/noAuth/users/param")
+    public ResponseEntity<DefaultResponse> getUserByUsername(@RequestParam String username) throws NotFoundException {
         return DefaultResponse.noMessage(userService.findByUsername(username),HttpStatus.OK);
     }
     @DeleteMapping("/users/{id}")
@@ -114,4 +132,5 @@ public class UserController{
         mail.setText(message);
         jms.send(mail);
     }
+
 }

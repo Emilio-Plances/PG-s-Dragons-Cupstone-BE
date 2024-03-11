@@ -25,47 +25,52 @@ import java.util.HashMap;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/characters")
+@RequestMapping("/api")
 public class CharacterController {
     @Autowired
     private CharacterService characterService;
     @Autowired
     private Cloudinary cloudinary;
-    @GetMapping
+    @GetMapping("/noAuth/characters")
     public ResponseEntity<DefaultResponse> getAll(Pageable pageable){
         return DefaultResponse.noMessage(characterService.findAll(pageable), HttpStatus.OK);
     }
-    @GetMapping("/{id}")
+    @GetMapping("/noAuth/characters/{id}")
     public ResponseEntity<DefaultResponse> getById(@PathVariable long id) throws NotFoundException {
         return DefaultResponse.noMessage(characterService.findById(id),HttpStatus.OK);
     }
-    @GetMapping("/query")
+    @GetMapping("/noAuth/characters/query")
     public ResponseEntity<DefaultResponse> filter(@RequestParam Optional<PgClass> optionalPgClass, @RequestParam Optional<Race> optionalRace,Pageable pageable){
         if(optionalPgClass.isPresent()&&optionalRace.isPresent()) return DefaultResponse.noMessage(characterService.filterByRaceAndClass(pageable,optionalRace.get(),optionalPgClass.get()),HttpStatus.OK);
         if(optionalPgClass.isPresent()) return DefaultResponse.noMessage(characterService.filterByClass(pageable,optionalPgClass.get()),HttpStatus.OK);
         if(optionalRace.isPresent()) return DefaultResponse.noMessage(characterService.filterByRace(pageable,optionalRace.get()),HttpStatus.OK);
         return DefaultResponse.noMessage(characterService.findAll(pageable),HttpStatus.OK);
     }
-    @PostMapping
+    @GetMapping("/characters/{userId}/getChar")
+    public ResponseEntity<DefaultResponse> getUserChar(@PathVariable long userId,Pageable pageable) throws NotFoundException {
+        return DefaultResponse.noMessage(characterService.findCharByUserId(userId,pageable),HttpStatus.OK);
+    }
+    @PostMapping("/characters")
     public ResponseEntity<DefaultResponse> save(@RequestBody @Validated CharacterRequest characterRequest, BindingResult bindingResult) throws BadRequestExceptionHandler, NotFoundException {
         if(bindingResult.hasErrors())
             throw new BadRequestExceptionHandler(bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList().toString());
         return DefaultResponse.noMessage(characterService.save(characterRequest),HttpStatus.CREATED);
     }
-    @PutMapping("/{id}")
+    @PutMapping("/characters/{id}")
     public ResponseEntity<DefaultResponse> update(@PathVariable long id,@RequestBody @Validated CharacterRequest characterRequest, BindingResult bindingResult) throws BadRequestExceptionHandler, NotFoundException {
         if(bindingResult.hasErrors())
             throw new BadRequestExceptionHandler(bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList().toString());
         return DefaultResponse.noMessage(characterService.update(id,characterRequest),HttpStatus.CREATED);
     }
-    @PatchMapping("/{id}/upload")
+    @PatchMapping("/characters/{id}/upload")
     public ResponseEntity<DefaultResponse> upload(@PathVariable long id, @RequestParam("upload") MultipartFile file) throws IOException, NotFoundException {
         Character character = characterService.upload(id, (String)cloudinary.uploader().upload(file.getBytes(), new HashMap()).get("url"));
         return DefaultResponse.full("Image uploaded", character , HttpStatus.OK);
     }
-    @DeleteMapping
+    @DeleteMapping("/characters")
     public ResponseEntity<DefaultResponse> delete(@PathVariable long id) throws NotFoundException {
         characterService.delete(id);
         return DefaultResponse.noObject("Deleted",HttpStatus.OK);
     }
+
 }

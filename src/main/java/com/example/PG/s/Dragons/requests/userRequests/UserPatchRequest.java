@@ -1,5 +1,6 @@
 package com.example.PG.s.Dragons.requests.userRequests;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Pattern;
@@ -21,7 +22,7 @@ public class UserPatchRequest {
     private String surname;
     private LocalDate birthday;
     @Pattern(regexp = ".*[^ ].*",message = "Enter a valid info")
-    @Max(255)
+    @Column(columnDefinition = "TEXT")
     private String info;
     @Email
     private String email;

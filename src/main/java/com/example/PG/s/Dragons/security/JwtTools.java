@@ -35,4 +35,5 @@ public class JwtTools {
         return Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes())).build()
                 .parseSignedClaims(token).getPayload().getSubject();
     }
+
 }

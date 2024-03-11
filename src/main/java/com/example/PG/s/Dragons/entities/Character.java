@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -50,4 +51,6 @@ public class Character {
     private Set<Spell> spells;
     @Enumerated(EnumType.STRING)
     private Set<Skill> skills;
+    @ManyToMany(mappedBy = "preferred")
+    private List<User> preferredUsers;
 }

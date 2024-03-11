@@ -1,6 +1,7 @@
 package com.example.PG.s.Dragons.services;
 
 import com.example.PG.s.Dragons.entities.User;
+import com.example.PG.s.Dragons.enums.Role;
 import com.example.PG.s.Dragons.exceptions.NotFoundException;
 import com.example.PG.s.Dragons.repositories.UserRepository;
 import com.example.PG.s.Dragons.requests.userRequests.UserPatchRequest;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,6 +44,7 @@ public class UserService {
         user.setEmail(registerRequest.getEmail().toLowerCase());
         user.setUsername(registerRequest.getUsername());
         user.setBirthday(registerRequest.getBirthday());
+        user.setRole(Role.User);
         user.setPassword(encoder.encode(registerRequest.getPassword()));
         return userRepository.save(user);
     }
@@ -65,6 +68,7 @@ public class UserService {
     public void setNewPassword(long id,String newPassword) throws NotFoundException {
         User user=findById(id);
         user.setPassword(encoder.encode(newPassword));
+        userRepository.save(user);
     }
     public void delete(long id) throws NotFoundException {
         User user=findById(id);
