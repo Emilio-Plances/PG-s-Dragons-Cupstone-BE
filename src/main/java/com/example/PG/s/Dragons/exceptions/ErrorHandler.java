@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.io.IOException;
+
 @RestControllerAdvice
 public class ErrorHandler {
     @ExceptionHandler(NotFoundException.class)
@@ -23,4 +25,10 @@ public class ErrorHandler {
     public ErrorResponse badRequestException(BadRequestExceptionHandler e){
         return new ErrorResponse(e.getMessage());
     }
+    @ExceptionHandler(IOException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse IOException(IOException e){
+        return new ErrorResponse(e.getMessage());
+    }
+
 }

@@ -22,7 +22,6 @@ public class UserPatchRequest {
     private String surname;
     private LocalDate birthday;
     @Pattern(regexp = ".*[^ ].*",message = "Enter a valid info")
-    @Column(columnDefinition = "TEXT")
     private String info;
     @Email
     private String email;

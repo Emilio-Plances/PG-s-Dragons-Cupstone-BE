@@ -97,7 +97,7 @@ public class UserController{
     @PatchMapping("/users/{id}/upload")
     public ResponseEntity<DefaultResponse> uploadImage(@PathVariable long id, @RequestParam("upload") MultipartFile file) throws IOException, NotFoundException {
         User user = userService.upload(id, (String)cloudinary.uploader().upload(file.getBytes(), new HashMap()).get("url"));
-        return DefaultResponse.full("Image uploaded", user , HttpStatus.OK);
+        return DefaultResponse.full("Image uploaded", user, HttpStatus.OK);
     }
     @GetMapping("/noAuth/users")
     public ResponseEntity<DefaultResponse> getAll(Pageable pageable){
@@ -132,5 +132,4 @@ public class UserController{
         mail.setText(message);
         jms.send(mail);
     }
-
 }

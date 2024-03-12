@@ -28,6 +28,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String surname;
     private LocalDate birthday;
+    @Column(columnDefinition = "TEXT")
     private String info;
     @Column(name = "link_photo")
     private String linkPhoto;
