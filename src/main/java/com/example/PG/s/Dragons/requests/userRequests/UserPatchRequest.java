@@ -1,8 +1,6 @@
 package com.example.PG.s.Dragons.requests.userRequests;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;

@@ -1,6 +1,5 @@
 package com.example.PG.s.Dragons.requests.characterRequests;
 
-import com.example.PG.s.Dragons.entities.Spell;
 import com.example.PG.s.Dragons.enums.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
