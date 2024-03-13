@@ -36,12 +36,11 @@ public class UserService {
     }
     public User register(RegisterRequest registerRequest){
         User user=new User();
-        String name=registerRequest.getName().toUpperCase().charAt(0)+registerRequest.getName().toLowerCase().substring(1);
-        String surname=registerRequest.getSurname().toUpperCase().charAt(0)+registerRequest.getSurname().toLowerCase().substring(1);
-        user.setName(name);
-        user.setSurname(surname);
+        user.setName(registerRequest.getName());
+        user.setSurname(registerRequest.getSurname());
         user.setEmail(registerRequest.getEmail().toLowerCase());
         user.setUsername(registerRequest.getUsername());
+        user.setPublicUsername(registerRequest.getUsername());
         user.setBirthday(registerRequest.getBirthday());
         user.setRole(Role.User);
         user.setPassword(encoder.encode(registerRequest.getPassword()));
@@ -49,18 +48,11 @@ public class UserService {
     }
     public User update(long id, UserPatchRequest patchRequest) throws NotFoundException {
         User user=findById(id);
-
-        if(patchRequest.getName()!=null){
-            String name=patchRequest.getName().toUpperCase().charAt(0)+patchRequest.getName().toLowerCase().substring(1);
-            user.setName(name);
-        }
-        if(patchRequest.getSurname()!=null){
-            user.setSurname(patchRequest.getSurname());
-            String surname=patchRequest.getSurname().toUpperCase().charAt(0)+patchRequest.getSurname().toLowerCase().substring(1);
-        }
+        if(patchRequest.getName()!=null) user.setName(patchRequest.getName());
+        if(patchRequest.getSurname()!=null)user.setSurname(patchRequest.getSurname());
         if(patchRequest.getEmail()!=null) user.setEmail(patchRequest.getEmail().toLowerCase());
         if(patchRequest.getInfo()!=null) user.setInfo(patchRequest.getInfo());
-        if(patchRequest.getUsername()!=null) user.setUsername(patchRequest.getUsername());
+        if(patchRequest.getPublicUsername()!=null) user.setUsername(patchRequest.getPublicUsername());
         if(patchRequest.getBirthday()!=null) user.setBirthday(patchRequest.getBirthday());
         return userRepository.save(user);
     }

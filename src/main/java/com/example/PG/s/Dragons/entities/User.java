@@ -21,6 +21,8 @@ public class User implements UserDetails {
     private long id;
     @Column(unique = true,nullable = false)
     private String username;
+    @Column(nullable = false)
+    private String publicUsername;
     @Column(unique = true,nullable = false)
     private String email;
     @Column(nullable = false)

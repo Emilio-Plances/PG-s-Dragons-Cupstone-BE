@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class UserPatchRequest {
     @Pattern(regexp = ".*[^ ].*",message = "Enter a valid username!")
     @Size(min=3,max=15,message="The name must contain 3 to 15 characters.")
-    private String username;
+    private String publicUsername;
     @Pattern(regexp = ".*[^ ].*",message = "Enter a valid name!")
     @Size(min=3,max=15,message="The name must contain 3 to 15 characters.")
     private String name;
