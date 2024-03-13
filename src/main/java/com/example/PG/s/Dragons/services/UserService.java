@@ -52,7 +52,7 @@ public class UserService {
         if(patchRequest.getSurname()!=null)user.setSurname(patchRequest.getSurname());
         if(patchRequest.getEmail()!=null) user.setEmail(patchRequest.getEmail().toLowerCase());
         if(patchRequest.getInfo()!=null) user.setInfo(patchRequest.getInfo());
-        if(patchRequest.getPublicUsername()!=null) user.setUsername(patchRequest.getPublicUsername());
+        if(patchRequest.getPublicUsername()!=null) user.setPublicUsername(patchRequest.getPublicUsername());
         if(patchRequest.getBirthday()!=null) user.setBirthday(patchRequest.getBirthday());
         return userRepository.save(user);
     }
@@ -69,5 +69,8 @@ public class UserService {
         User user=findById(id);
         user.setLinkPhoto(link);
         return userRepository.save(user);
+    }
+    public Page<User> searchByPublicUsername(Pageable pageable,String publicUsername){
+        return userRepository.searchByPublicUsername(pageable, publicUsername);
     }
 }

@@ -111,6 +111,10 @@ public class UserController{
     public ResponseEntity<DefaultResponse> getUserByUsername(@RequestParam String username) throws NotFoundException {
         return DefaultResponse.noMessage(userService.findByUsername(username),HttpStatus.OK);
     }
+    @GetMapping("/noAuth/users/publicUsername")
+    public ResponseEntity<DefaultResponse> searchByPublicUsername(@RequestParam String publicUsername,Pageable pageable){
+        return DefaultResponse.noMessage(userService.searchByPublicUsername(pageable,publicUsername),HttpStatus.OK);
+    }
     @DeleteMapping("/users/{id}")
     public ResponseEntity<DefaultResponse> delete(@PathVariable long id) throws NotFoundException {
         userService.delete(id);
@@ -132,4 +136,5 @@ public class UserController{
         mail.setText(message);
         jms.send(mail);
     }
+
 }
