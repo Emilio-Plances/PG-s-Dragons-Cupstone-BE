@@ -9,11 +9,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface SpellRepository extends JpaRepository<Spell,Long>, PagingAndSortingRepository<Spell,Long> {
+import java.util.List;
+
+public interface SpellRepository extends JpaRepository<Spell,Long>{
+
     @Query("SELECT s FROM Spell s WHERE LOWER(s.name) LIKE LOWER(CONCAT('%', :name, '%')) ORDER BY s.name ASC")
-    Page<Spell> searchByName(String name, Pageable pageable);
+    List<Spell> searchByNameAsc(String name);
     @Query("SELECT s FROM Spell s WHERE s.school=:school ORDER BY s.name ASC" )
-    Page<Spell> findBySchool(School school,Pageable pageable);
+    List<Spell> findBySchoolAsc(School school);
     @Query("SELECT s FROM Spell s WHERE :pgClass IN (s.pgClassList) ORDER BY s.name ASC" )
-    Page<Spell> findByClass(PgClass pgClass, Pageable pageable);
+    List<Spell> findByClassAsc(PgClass pgClass);
+
 }

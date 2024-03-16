@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -24,23 +25,23 @@ public class CharacterService {
     private UserService userService;
     @Autowired
     private SpellService spellService;
-    public Page<Character> findAll(Pageable pageable){
-        return characterRepository.findAll(pageable);
+    public List<Character> findAll(){
+        return characterRepository.findAll();
     }
-    public Page<Character> filterByClass(Pageable pageable, PgClass pgClass){
-        return characterRepository.findByPgClassOrderByNameAsc(pageable,pgClass);
+    public List<Character> filterByClass(PgClass pgClass){
+        return characterRepository.findByPgClassOrderByNameAsc(pgClass);
     }
-    public Page<Character> filterByRace(Pageable pageable, Race race){
-        return characterRepository.findByRaceOrderByNameAsc(pageable,race);
+    public List<Character> filterByRace(Race race){
+        return characterRepository.findByRaceOrderByNameAsc(race);
     }
-    public Page<Character> filterByRaceAndClass(Pageable pageable, Race race,PgClass pgClass){
-        return characterRepository.findByRaceAndPgClassOrderByNameAsc(pageable,race,pgClass);
+    public List<Character> filterByRaceAndClass(Race race,PgClass pgClass){
+        return characterRepository.findByRaceAndPgClassOrderByNameAsc(race,pgClass);
     }
     public Character findById(long id) throws NotFoundException {
         return characterRepository.findById(id).orElseThrow(()->new NotFoundException("Character not found"));
     }
-    public Page<Character> findCharByUserId(long id, Pageable pageable) throws NotFoundException {
-        return characterRepository.findByUserId(pageable,id);
+    public List<Character> findCharByUserId(long id) throws NotFoundException {
+        return characterRepository.findByUserId(id);
     }
     public Character save(CharacterRequest characterRequest) throws NotFoundException {
         User user= userService.findById(characterRequest.getUserId());

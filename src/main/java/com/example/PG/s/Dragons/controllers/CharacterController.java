@@ -33,7 +33,7 @@ public class CharacterController {
     private Cloudinary cloudinary;
     @GetMapping("/noAuth/characters")
     public ResponseEntity<DefaultResponse> getAll(Pageable pageable){
-        return DefaultResponse.noMessage(characterService.findAll(pageable), HttpStatus.OK);
+        return DefaultResponse.noMessage(characterService.findAll(), HttpStatus.OK);
     }
     @GetMapping("/noAuth/characters/{id}")
     public ResponseEntity<DefaultResponse> getById(@PathVariable long id) throws NotFoundException {
@@ -41,14 +41,14 @@ public class CharacterController {
     }
     @GetMapping("/noAuth/characters/query")
     public ResponseEntity<DefaultResponse> filter(@RequestParam Optional<PgClass> optionalPgClass, @RequestParam Optional<Race> optionalRace,Pageable pageable){
-        if(optionalPgClass.isPresent()&&optionalRace.isPresent()) return DefaultResponse.noMessage(characterService.filterByRaceAndClass(pageable,optionalRace.get(),optionalPgClass.get()),HttpStatus.OK);
-        if(optionalPgClass.isPresent()) return DefaultResponse.noMessage(characterService.filterByClass(pageable,optionalPgClass.get()),HttpStatus.OK);
-        if(optionalRace.isPresent()) return DefaultResponse.noMessage(characterService.filterByRace(pageable,optionalRace.get()),HttpStatus.OK);
-        return DefaultResponse.noMessage(characterService.findAll(pageable),HttpStatus.OK);
+        if(optionalPgClass.isPresent()&&optionalRace.isPresent()) return DefaultResponse.noMessage(characterService.filterByRaceAndClass(optionalRace.get(),optionalPgClass.get()),HttpStatus.OK);
+        if(optionalPgClass.isPresent()) return DefaultResponse.noMessage(characterService.filterByClass(optionalPgClass.get()),HttpStatus.OK);
+        if(optionalRace.isPresent()) return DefaultResponse.noMessage(characterService.filterByRace(optionalRace.get()),HttpStatus.OK);
+        return DefaultResponse.noMessage(characterService.findAll(),HttpStatus.OK);
     }
     @GetMapping("/characters/{userId}/getChar")
-    public ResponseEntity<DefaultResponse> getUserChar(@PathVariable long userId,Pageable pageable) throws NotFoundException {
-        return DefaultResponse.noMessage(characterService.findCharByUserId(userId,pageable),HttpStatus.OK);
+    public ResponseEntity<DefaultResponse> getUserChar(@PathVariable long userId) throws NotFoundException {
+        return DefaultResponse.noMessage(characterService.findCharByUserId(userId),HttpStatus.OK);
     }
     @PostMapping("/characters")
     public ResponseEntity<DefaultResponse> save(@RequestBody @Validated CharacterRequest characterRequest, BindingResult bindingResult) throws BadRequestExceptionHandler, NotFoundException {
@@ -72,5 +72,4 @@ public class CharacterController {
         characterService.delete(id);
         return DefaultResponse.noObject("Deleted",HttpStatus.OK);
     }
-
 }

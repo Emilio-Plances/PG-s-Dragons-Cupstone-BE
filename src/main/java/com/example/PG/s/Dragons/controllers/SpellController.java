@@ -21,23 +21,24 @@ public class SpellController {
         return DefaultResponse.noMessage(spellService.findAll(), HttpStatus.OK);
     }
     @GetMapping("/page")
-    public ResponseEntity<DefaultResponse> getPage(Pageable pageable){
-        return DefaultResponse.noMessage(spellService.findPage(pageable),HttpStatus.OK);
+    public ResponseEntity<DefaultResponse> getPage(){
+        return DefaultResponse.noMessage(spellService.findPage(),HttpStatus.OK);
     }
     @GetMapping("/{id}")
     public ResponseEntity<DefaultResponse> getById(@PathVariable long id) throws NotFoundException {
         return DefaultResponse.noMessage(spellService.findById(id),HttpStatus.OK);
     }
     @GetMapping("/name")
-    public ResponseEntity<DefaultResponse> getByName(@RequestParam String name, Pageable pageable){
-        return DefaultResponse.noMessage(spellService.searchByName(name,pageable),HttpStatus.OK);
+    public ResponseEntity<DefaultResponse> getByNameaAsc(@RequestParam String name){
+        return DefaultResponse.noMessage(spellService.searchByNameAsc(name),HttpStatus.OK);
     }
     @GetMapping("/class")
-    public ResponseEntity<DefaultResponse> getByClass(@RequestParam PgClass pgClass, Pageable pageable){
-        return DefaultResponse.noMessage(spellService.findByClass(pgClass,pageable),HttpStatus.OK);
+    public ResponseEntity<DefaultResponse> getByClassaAsc(@RequestParam PgClass pgClass){
+        return DefaultResponse.noMessage(spellService.findByClassAsc(pgClass),HttpStatus.OK);
     }
     @GetMapping("/school")
-    public ResponseEntity<DefaultResponse> getBySchool(@RequestParam School school, Pageable pageable){
-        return DefaultResponse.noMessage(spellService.findBySchool(school,pageable),HttpStatus.OK);
+    public ResponseEntity<DefaultResponse> getBySchoolaAsc(@RequestParam School school){
+        return DefaultResponse.noMessage(spellService.findBySchoolAsc(school),HttpStatus.OK);
     }
+
 }

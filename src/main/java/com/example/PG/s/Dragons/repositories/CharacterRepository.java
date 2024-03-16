@@ -9,10 +9,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface CharacterRepository extends JpaRepository<Character,Long>, PagingAndSortingRepository<Character,Long> {
-    Page<Character> findByPgClassOrderByNameAsc (Pageable pageable,PgClass pgClass);
-    Page<Character> findByRaceOrderByNameAsc (Pageable pageable, Race race);
-    Page<Character> findByRaceAndPgClassOrderByNameAsc(Pageable pageable,Race race,PgClass pgClass);
+import java.util.List;
+
+public interface CharacterRepository extends JpaRepository<Character,Long>{
+    List<Character> findByPgClassOrderByNameAsc (PgClass pgClass);
+    List<Character> findByRaceOrderByNameAsc (Race race);
+    List<Character> findByRaceAndPgClassOrderByNameAsc(Race race,PgClass pgClass);
     @Query("SELECT c FROM Character c WHERE c.user.id=:id")
-    Page<Character> findByUserId(Pageable pageable,long id);
+    List<Character> findByUserId(long id);
 }

@@ -20,8 +20,8 @@ public class SpellService {
     public List<Spell> findAll(){
         return spellRepository.findAll();
     }
-    public Page<Spell> findPage(Pageable pageable){
-        return spellRepository.findAll(pageable);
+    public List<Spell> findPage(){
+        return spellRepository.findAll();
     }
     public Spell findById(long id) throws NotFoundException {
         return spellRepository.findById(id).orElseThrow(()->new NotFoundException("Spell not found"));
@@ -32,13 +32,15 @@ public class SpellService {
     public Optional<Spell> optionalById(long id) throws NotFoundException {
         return spellRepository.findById(id);
     }
-    public Page<Spell> searchByName(String name, Pageable pageable) {
-        return spellRepository.searchByName(name,pageable);
+    public List<Spell> searchByNameAsc(String name) {
+        return spellRepository.searchByNameAsc(name);
     }
-    public Page<Spell> findByClass(PgClass pgClass,Pageable pageable){
-        return spellRepository.findByClass(pgClass,pageable);
+
+    public List<Spell> findByClassAsc(PgClass pgClass){
+        return spellRepository.findByClassAsc(pgClass);
     }
-    public Page<Spell> findBySchool(School school, Pageable pageable){
-        return spellRepository.findBySchool(school,pageable);
+
+    public List<Spell> findBySchoolAsc(School school){
+        return spellRepository.findBySchoolAsc(school);
     }
 }

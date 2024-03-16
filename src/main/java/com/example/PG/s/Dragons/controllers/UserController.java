@@ -100,8 +100,8 @@ public class UserController{
         return DefaultResponse.full("Image uploaded", user, HttpStatus.OK);
     }
     @GetMapping("/noAuth/users")
-    public ResponseEntity<DefaultResponse> getAll(Pageable pageable){
-        return DefaultResponse.noMessage(userService.findAll(pageable),HttpStatus.OK);
+    public ResponseEntity<DefaultResponse> getAll(){
+        return DefaultResponse.noMessage(userService.findAll(),HttpStatus.OK);
     }
     @GetMapping("/noAuth/users/{id}")
     public ResponseEntity<DefaultResponse> getUserById(@PathVariable long id) throws NotFoundException {
@@ -112,8 +112,8 @@ public class UserController{
         return DefaultResponse.noMessage(userService.findByUsername(username),HttpStatus.OK);
     }
     @GetMapping("/noAuth/users/publicUsername")
-    public ResponseEntity<DefaultResponse> searchByPublicUsername(@RequestParam String publicUsername,Pageable pageable){
-        return DefaultResponse.noMessage(userService.searchByPublicUsername(pageable,publicUsername),HttpStatus.OK);
+    public ResponseEntity<DefaultResponse> searchByPublicUsername(@RequestParam String publicUsername){
+        return DefaultResponse.noMessage(userService.searchByPublicUsername(publicUsername),HttpStatus.OK);
     }
     @DeleteMapping("/users/{id}")
     public ResponseEntity<DefaultResponse> delete(@PathVariable long id) throws NotFoundException {

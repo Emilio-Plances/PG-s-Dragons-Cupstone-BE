@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,8 +21,8 @@ public class UserService {
     private PasswordEncoder encoder;
     @Autowired
     private UserRepository userRepository;
-    public Page<User> findAll(Pageable pageable){
-        return userRepository.findAll(pageable);
+    public List<User> findAll(){
+        return userRepository.findAll();
     }
     public User findById(long id) throws NotFoundException {
         Optional<User> optionalUser=userRepository.findById(id);
@@ -70,7 +71,7 @@ public class UserService {
         user.setLinkPhoto(link);
         return userRepository.save(user);
     }
-    public Page<User> searchByPublicUsername(Pageable pageable,String publicUsername){
-        return userRepository.searchByPublicUsername(pageable, publicUsername);
+    public List<User> searchByPublicUsername(String publicUsername){
+        return userRepository.searchByPublicUsername(publicUsername);
     }
 }
