@@ -20,10 +20,6 @@ public class SpellController {
     public ResponseEntity<DefaultResponse> getAll(){
         return DefaultResponse.noMessage(spellService.findAll(), HttpStatus.OK);
     }
-    @GetMapping("/page")
-    public ResponseEntity<DefaultResponse> getPage(){
-        return DefaultResponse.noMessage(spellService.findPage(),HttpStatus.OK);
-    }
     @GetMapping("/{id}")
     public ResponseEntity<DefaultResponse> getById(@PathVariable long id) throws NotFoundException {
         return DefaultResponse.noMessage(spellService.findById(id),HttpStatus.OK);

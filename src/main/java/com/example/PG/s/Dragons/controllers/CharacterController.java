@@ -32,7 +32,7 @@ public class CharacterController {
     @Autowired
     private Cloudinary cloudinary;
     @GetMapping("/noAuth/characters")
-    public ResponseEntity<DefaultResponse> getAll(Pageable pageable){
+    public ResponseEntity<DefaultResponse> getAll(){
         return DefaultResponse.noMessage(characterService.findAll(), HttpStatus.OK);
     }
     @GetMapping("/noAuth/characters/{id}")
@@ -40,7 +40,7 @@ public class CharacterController {
         return DefaultResponse.noMessage(characterService.findById(id),HttpStatus.OK);
     }
     @GetMapping("/noAuth/characters/query")
-    public ResponseEntity<DefaultResponse> filter(@RequestParam Optional<PgClass> optionalPgClass, @RequestParam Optional<Race> optionalRace,Pageable pageable){
+    public ResponseEntity<DefaultResponse> filter(@RequestParam Optional<PgClass> optionalPgClass, @RequestParam Optional<Race> optionalRace){
         if(optionalPgClass.isPresent()&&optionalRace.isPresent()) return DefaultResponse.noMessage(characterService.filterByRaceAndClass(optionalRace.get(),optionalPgClass.get()),HttpStatus.OK);
         if(optionalPgClass.isPresent()) return DefaultResponse.noMessage(characterService.filterByClass(optionalPgClass.get()),HttpStatus.OK);
         if(optionalRace.isPresent()) return DefaultResponse.noMessage(characterService.filterByRace(optionalRace.get()),HttpStatus.OK);

@@ -20,9 +20,6 @@ public class SpellService {
     public List<Spell> findAll(){
         return spellRepository.findAll();
     }
-    public List<Spell> findPage(){
-        return spellRepository.findAll();
-    }
     public Spell findById(long id) throws NotFoundException {
         return spellRepository.findById(id).orElseThrow(()->new NotFoundException("Spell not found"));
     }
