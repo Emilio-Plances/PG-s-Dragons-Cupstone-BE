@@ -90,7 +90,7 @@ public class UserController{
         if(bindingResult.hasErrors())
             throw new BadRequestExceptionHandler(bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList().toString());
         User user=userService.findById(id);
-        if(!encoder.matches(passRequest.getOldPassword(),user.getPassword())) throw new UnauthorizedException("Passwords must match");
+        if(!encoder.matches(passRequest.getOldPassword(),user.getPassword())) throw new UnauthorizedException("Wrong Password");
         userService.setNewPassword(id, passRequest.getNewPassword());
         return DefaultResponse.noObject("Password changed",HttpStatus.OK);
     }
@@ -136,5 +136,4 @@ public class UserController{
         mail.setText(message);
         jms.send(mail);
     }
-
 }
