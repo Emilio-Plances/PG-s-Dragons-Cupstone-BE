@@ -1,7 +1,6 @@
 package com.example.PG.s.Dragons.enums;
 
 public enum PgClass {
-    Artificer,
     Barbarian,
     Bard,
     Cleric,

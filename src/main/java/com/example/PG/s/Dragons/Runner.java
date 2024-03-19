@@ -61,9 +61,6 @@ public class Runner implements CommandLineRunner {
         Set<PgClass> pgClassSet =new HashSet<>();
         Arrays.stream(classSplit).toList().forEach(el->{
             switch(el){
-                case "Artificer":
-                    pgClassSet.add(PgClass.Artificer);
-                    break;
                 case "Bard":
                     pgClassSet.add(PgClass.Bard);
                     break;

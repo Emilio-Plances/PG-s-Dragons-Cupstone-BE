@@ -53,11 +53,13 @@ public class CharacterService {
     }
     public Character update(long id, CharacterRequest characterRequest) throws NotFoundException {
         Character character=findById(id);
+        character.setStatus(characterRequest.getStatus());
         return characterRepository.save(copy(characterRequest,character));
     }
     public Character upload(long id, String link) throws NotFoundException {
         Character character=findById(id);
         character.setImage(link);
+
         return characterRepository.save(character);
     }
     public void delete(long id) throws NotFoundException {
@@ -74,7 +76,6 @@ public class CharacterService {
         return spells;
     }
     private Character copy(CharacterRequest characterRequest,Character character){
-        character.setStatus(characterRequest.getStatus());
         character.setName(characterRequest.getName());
         character.setLevel(characterRequest.getLevel());
         character.setClassArmor(characterRequest.getClassArmor());
