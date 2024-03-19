@@ -22,6 +22,7 @@ public class Character {
     @Enumerated(EnumType.STRING)
     private Status status;
     private String name;
+    @Enumerated(EnumType.STRING)
     private PgClass[] pgClass=new PgClass[2];
     private HashMap<PgClass,Integer> level=new HashMap<>();
     @Column(name = "class_armor")

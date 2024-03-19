@@ -5,6 +5,7 @@ import com.example.PG.s.Dragons.entities.Spell;
 import com.example.PG.s.Dragons.entities.User;
 import com.example.PG.s.Dragons.enums.PgClass;
 import com.example.PG.s.Dragons.enums.Race;
+import com.example.PG.s.Dragons.enums.Status;
 import com.example.PG.s.Dragons.exceptions.NotFoundException;
 import com.example.PG.s.Dragons.repositories.CharacterRepository;
 import com.example.PG.s.Dragons.requests.characterRequests.CharacterRequest;
@@ -47,6 +48,7 @@ public class CharacterService {
         User user= userService.findById(characterRequest.getUserId());
         Character character=new Character();
         character.setUser(user);
+        character.setStatus(Status.Private);
         return characterRepository.save(copy(characterRequest,character));
     }
     public Character update(long id, CharacterRequest characterRequest) throws NotFoundException {

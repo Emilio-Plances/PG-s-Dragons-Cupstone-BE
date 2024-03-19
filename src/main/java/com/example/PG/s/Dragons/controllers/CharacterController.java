@@ -67,7 +67,7 @@ public class CharacterController {
         Character character = characterService.upload(id, (String)cloudinary.uploader().upload(file.getBytes(), new HashMap()).get("url"));
         return DefaultResponse.full("Image uploaded", character , HttpStatus.OK);
     }
-    @DeleteMapping("/characters")
+    @DeleteMapping("/characters/{id}")
     public ResponseEntity<DefaultResponse> delete(@PathVariable long id) throws NotFoundException {
         characterService.delete(id);
         return DefaultResponse.noObject("Deleted",HttpStatus.OK);
