@@ -34,7 +34,7 @@ public class SpellService {
     }
 
     public List<Spell> findByClassAsc(PgClass pgClass){
-        return spellRepository.findByClassAsc(pgClass);
+        return spellRepository.findByClassAsc(pgClass.name());
     }
 
     public List<Spell> findBySchoolAsc(School school){

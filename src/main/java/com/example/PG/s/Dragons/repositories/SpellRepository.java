@@ -17,7 +17,7 @@ public interface SpellRepository extends JpaRepository<Spell,Long>{
     List<Spell> searchByNameAsc(String name);
     @Query("SELECT s FROM Spell s WHERE s.school=:school ORDER BY s.name ASC" )
     List<Spell> findBySchoolAsc(School school);
-    @Query("SELECT s FROM Spell s WHERE :pgClass IN (s.pgClassList) ORDER BY s.name ASC" )
-    List<Spell> findByClassAsc(PgClass pgClass);
+    @Query(value = "SELECT * FROM spells WHERE :pgClass = ANY(classes)",nativeQuery = true)
+    List<Spell> findByClassAsc(String pgClass);
 
 }

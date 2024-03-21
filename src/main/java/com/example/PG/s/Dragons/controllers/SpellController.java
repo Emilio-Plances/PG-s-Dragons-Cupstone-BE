@@ -25,15 +25,15 @@ public class SpellController {
         return DefaultResponse.noMessage(spellService.findById(id),HttpStatus.OK);
     }
     @GetMapping("/name")
-    public ResponseEntity<DefaultResponse> getByNameaAsc(@RequestParam String name){
+    public ResponseEntity<DefaultResponse> getByName(@RequestParam String name){
         return DefaultResponse.noMessage(spellService.searchByNameAsc(name),HttpStatus.OK);
     }
     @GetMapping("/class")
-    public ResponseEntity<DefaultResponse> getByClassaAsc(@RequestParam PgClass pgClass){
+    public ResponseEntity<DefaultResponse> getByClass(@RequestParam PgClass pgClass){
         return DefaultResponse.noMessage(spellService.findByClassAsc(pgClass),HttpStatus.OK);
     }
     @GetMapping("/school")
-    public ResponseEntity<DefaultResponse> getBySchoolaAsc(@RequestParam School school){
+    public ResponseEntity<DefaultResponse> getBySchool(@RequestParam School school){
         return DefaultResponse.noMessage(spellService.findBySchoolAsc(school),HttpStatus.OK);
     }
 

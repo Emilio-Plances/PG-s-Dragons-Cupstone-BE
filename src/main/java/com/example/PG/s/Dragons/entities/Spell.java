@@ -5,6 +5,7 @@ import com.example.PG.s.Dragons.enums.School;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -18,7 +19,7 @@ public class Spell {
     private String name;
     @Enumerated(EnumType.STRING)
     @Column(name = "classes")
-    private Set<PgClass> pgClassList;
+    private Set<PgClass> pgClassList=new HashSet<>();
     private int level;
     @Enumerated(EnumType.STRING)
     private School school;

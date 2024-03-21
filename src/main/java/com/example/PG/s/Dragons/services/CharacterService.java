@@ -8,6 +8,7 @@ import com.example.PG.s.Dragons.enums.Race;
 import com.example.PG.s.Dragons.enums.Status;
 import com.example.PG.s.Dragons.exceptions.NotFoundException;
 import com.example.PG.s.Dragons.repositories.CharacterRepository;
+import com.example.PG.s.Dragons.requests.characterRequests.CharacterPutRequest;
 import com.example.PG.s.Dragons.requests.characterRequests.CharacterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -49,12 +50,12 @@ public class CharacterService {
         Character character=new Character();
         character.setUser(user);
         character.setStatus(Status.Private);
-        return characterRepository.save(copy(characterRequest,character));
+        return characterRepository.save(character);
     }
-    public Character update(long id, CharacterRequest characterRequest) throws NotFoundException {
+    public Character update(long id, CharacterPutRequest characterPutRequest) throws NotFoundException {
         Character character=findById(id);
-        character.setStatus(characterRequest.getStatus());
-        return characterRepository.save(copy(characterRequest,character));
+        character.setStatus(characterPutRequest.getStatus());
+        return characterRepository.save(copy(characterPutRequest,character));
     }
     public Character upload(long id, String link) throws NotFoundException {
         Character character=findById(id);
@@ -75,8 +76,9 @@ public class CharacterService {
         });
         return spells;
     }
-    private Character copy(CharacterRequest characterRequest,Character character){
+    private Character copy(CharacterPutRequest characterRequest,Character character){
         character.setName(characterRequest.getName());
+        character.setPgClass(characterRequest.getPgClass());
         character.setLevel(characterRequest.getLevel());
         character.setClassArmor(characterRequest.getClassArmor());
         character.setDice(characterRequest.getDice());

@@ -6,6 +6,7 @@ import com.example.PG.s.Dragons.enums.PgClass;
 import com.example.PG.s.Dragons.enums.Race;
 import com.example.PG.s.Dragons.exceptions.BadRequestExceptionHandler;
 import com.example.PG.s.Dragons.exceptions.NotFoundException;
+import com.example.PG.s.Dragons.requests.characterRequests.CharacterPutRequest;
 import com.example.PG.s.Dragons.requests.characterRequests.CharacterRequest;
 import com.example.PG.s.Dragons.responses.DefaultResponse;
 import com.example.PG.s.Dragons.services.CharacterService;
@@ -57,7 +58,7 @@ public class CharacterController {
         return DefaultResponse.noMessage(characterService.save(characterRequest),HttpStatus.CREATED);
     }
     @PutMapping("/characters/{id}")
-    public ResponseEntity<DefaultResponse> update(@PathVariable long id,@RequestBody @Validated CharacterRequest characterRequest, BindingResult bindingResult) throws BadRequestExceptionHandler, NotFoundException {
+    public ResponseEntity<DefaultResponse> update(@PathVariable long id, @RequestBody @Validated CharacterPutRequest characterRequest, BindingResult bindingResult) throws BadRequestExceptionHandler, NotFoundException {
         if(bindingResult.hasErrors())
             throw new BadRequestExceptionHandler(bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList().toString());
         return DefaultResponse.noMessage(characterService.update(id,characterRequest),HttpStatus.CREATED);
