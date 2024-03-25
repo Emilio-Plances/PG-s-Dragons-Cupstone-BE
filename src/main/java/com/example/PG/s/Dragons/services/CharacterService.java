@@ -30,20 +30,26 @@ public class CharacterService {
     public List<Character> findAll(){
         return characterRepository.findAll();
     }
+    public List<Character> findPublic(){
+        return characterRepository.findByStatusOrderByNameAsc(Status.Public);
+    }
     public List<Character> filterByClass(PgClass pgClass){
-        return characterRepository.findByPgClassOrderByNameAsc(pgClass);
+        return characterRepository.findByPgClassAndStatusOrderByNameAsc(pgClass,Status.Public);
     }
     public List<Character> filterByRace(Race race){
-        return characterRepository.findByRaceOrderByNameAsc(race);
+        return characterRepository.findByRaceAndStatusOrderByNameAsc(race,Status.Public);
     }
     public List<Character> filterByRaceAndClass(Race race,PgClass pgClass){
-        return characterRepository.findByRaceAndPgClassOrderByNameAsc(race,pgClass);
+        return characterRepository.findByRaceAndPgClassAndStatusOrderByNameAsc(race,pgClass,Status.Public);
     }
     public Character findById(long id) throws NotFoundException {
         return characterRepository.findById(id).orElseThrow(()->new NotFoundException("Character not found"));
     }
     public List<Character> findCharByUserId(long id) throws NotFoundException {
         return characterRepository.findByUserId(id);
+    }
+    public List<Character> searchByName(String name){
+        return characterRepository.searchByName(name);
     }
     public Character save(CharacterRequest characterRequest) throws NotFoundException {
         User user= userService.findById(characterRequest.getUserId());

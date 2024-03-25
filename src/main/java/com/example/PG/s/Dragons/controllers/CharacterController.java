@@ -36,6 +36,14 @@ public class CharacterController {
     public ResponseEntity<DefaultResponse> getAll(){
         return DefaultResponse.noMessage(characterService.findAll(), HttpStatus.OK);
     }
+    @GetMapping("/noAuth/characters/public")
+    public ResponseEntity<DefaultResponse> getPublic(){
+        return DefaultResponse.noMessage(characterService.findPublic(), HttpStatus.OK);
+    }
+    @GetMapping("/noAuth/characters/name")
+    public ResponseEntity<DefaultResponse> getByName(@RequestParam String name){
+        return DefaultResponse.noMessage(characterService.searchByName(name),HttpStatus.OK);
+    }
     @GetMapping("/noAuth/characters/{id}")
     public ResponseEntity<DefaultResponse> getById(@PathVariable long id) throws NotFoundException {
         return DefaultResponse.noMessage(characterService.findById(id),HttpStatus.OK);
